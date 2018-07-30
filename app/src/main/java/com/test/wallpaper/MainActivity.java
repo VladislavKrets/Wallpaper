@@ -45,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case 1 : {
-                Uri uri = data.getData();
-                Intent intent = new Intent(MainActivity.this, PhotoViewActivity.class);
-                intent.putExtra("filePath", uri);
-                startActivity(intent);
+        if (data != null) {
+            switch (requestCode) {
+                case 1: {
+                    Uri uri = data.getData();
+                    Intent intent = new Intent(MainActivity.this, PhotoViewActivity.class);
+                    intent.putExtra("filePath", uri);
+                    startActivity(intent);
+                }
             }
         }
     }
