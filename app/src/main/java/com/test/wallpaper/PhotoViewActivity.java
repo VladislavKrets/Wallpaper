@@ -45,7 +45,7 @@ public class PhotoViewActivity extends AppCompatActivity {
 
         Bitmap bitmap = null;
         String isInput = getIntent().getStringExtra("input");
-        if (isInput == null) {
+        if (isInput == null) { //null means we are choosing photo from gallery
             Uri uri = (Uri) getIntent().getParcelableExtra("filePath");;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
@@ -53,7 +53,7 @@ public class PhotoViewActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        else {
+        else { //from assets
             bitmap = BitmapFactory.decodeStream(UtilsInputStream.getInstance().getInputStream());
         }
         imageView.setImageBitmap(bitmap);
@@ -71,6 +71,7 @@ public class PhotoViewActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             progressBar = new ProgressBar(PhotoViewActivity.this,null,android.R.attr.progressBarStyleLarge);
+            //building progress bar
             RelativeLayout layout = findViewById(R.id.relativeLayout);
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(300,300);
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -85,7 +86,7 @@ public class PhotoViewActivity extends AppCompatActivity {
             WallpaperManager wallpaperManager
                     = WallpaperManager.getInstance(getApplicationContext());
             try {
-                wallpaperManager.setBitmap(bitmaps[0]);
+                wallpaperManager.setBitmap(bitmaps[0]); //only one bitmap instance
             } catch (IOException e) {
                 e.printStackTrace();
             }

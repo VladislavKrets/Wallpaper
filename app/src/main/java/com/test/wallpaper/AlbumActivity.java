@@ -30,7 +30,7 @@ public class AlbumActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
-        folder = getIntent().getStringExtra("folderName");
+        folder = getIntent().getStringExtra("folderName"); //getting folder's name where we are going to get pictures
         Toolbar topToolBar = findViewById(R.id.toolbar);
         topToolBar.setTitleTextColor(Color.WHITE);
         topToolBar.setSubtitleTextColor(Color.WHITE);
@@ -44,7 +44,7 @@ public class AlbumActivity extends AppCompatActivity {
         gridView.setVerticalSpacing(5);
         gridView.setColumnWidth(370);
 
-        new AssetsTask().execute();
+        new AssetsTask().execute(); //getting assets is too hard work
     }
 
     private class AssetsTask extends AsyncTask<Void, Void, Void> {
@@ -79,7 +79,8 @@ public class AlbumActivity extends AppCompatActivity {
                     InputStream inputStream = ((PhotoEntity)adapterView.getAdapter()
                             .getItem(position)).getFilePath();
                     UtilsInputStream.getInstance().setInputStream(inputStream);
-                    intent.putExtra("input", "InputStream");
+                    //it is easier to build singleton because input stream doesn't implements parselable
+                    intent.putExtra("input", "InputStream"); //flag that we must get inputstream from singleton in next activity
                     startActivity(intent);
 
                 }

@@ -39,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
         gridView.setHorizontalSpacing(5);
         gridView.setVerticalSpacing(5);
         gridView.setColumnWidth(370);
-        new AssetsTask().execute();
+        new AssetsTask().execute(); //because too many work at main thread
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (data != null) {
+        if (data != null) { //if null do nothing
             switch (requestCode) {
                 case 1: {
                     Uri uri = data.getData();
@@ -64,11 +64,13 @@ public class MainActivity extends AppCompatActivity {
             List<PhotoEntity> photoEntities = new ArrayList<>();
             AssetManager assetManager = getAssets();
             try {
+                //first item is special for getting wallpapers from files
                 photoEntities.add(new PhotoEntity(assetManager.open("cam.png"), "own picture"));
                 String[] folders = assetManager.list("wallpapers");
                 for (String folderName : folders) {
                     photoEntities.add(new PhotoEntity(assetManager.open("wallpapers/" + folderName + "/1.jpg"),
                             folderName));
+                    //preview is first picture
                 }
 
             } catch (IOException e) {
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     switch (position) {
                         case 0:{
+                            //if first element clicked we calling picture selector
                             Intent intent = new Intent();
                             intent.setType("image/*");
                             intent.setAction(Intent.ACTION_GET_CONTENT);
